@@ -9,6 +9,27 @@
 <body>
   <cast-media-player></cast-media-player>
   <script>
+
+  window.mediaHost = new cast.player.api.Host({
+    'mediaElement': window.mediaElement,
+    'url': url
+  });
+
+  window.mediaHost.updateManifestRequestInfo = function(requestInfo) {
+    if (!requestInfo.url) {
+        requestInfo.url = this.url;
+    }
+    requestInfo.withCredentials = true;
+  };
+
+  window.mediaHost.updateLicenseRequestInfo = function(requestInfo) {
+    requestInfo.withCredentials = true;
+  };
+
+  window.mediaHost.updateSegmentRequestInfo = function(requestInfo) {
+    requestInfo.withCredentials = true;
+  };
+
     cast.framework.CastReceiverContext.getInstance().start();
   </script>
 </body>
