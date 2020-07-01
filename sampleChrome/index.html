@@ -10,27 +10,44 @@
   <cast-media-player></cast-media-player>
   <script>
 
-  window.mediaHost = new cast.player.api.Host({
-    'mediaElement': window.mediaElement,
-    'url': url
-  });
+  const context = cast.framework.CastReceiverContext.getInstance();
+const playerManager = context.getPlayerManager();
+const castOptions = new cast.framework.CastReceiverOptions();
 
-  window.mediaHost.updateManifestRequestInfo = function(requestInfo) {
-    if (!requestInfo.url) {
-        requestInfo.url = this.url;
-    }
+let playbackConfig = (Object.assign(new cast.framework.PlaybackConfig(), playerManager.getPlaybackConfig()));
+
+playerManager.setMessageInterceptor(
+cast.framework.messages.MessageType.LOAD,
+request => {
+
+  // Set cookies here.
+  // No need to pass cookies into header in each segment.
+
+  //  console.log("content id:", request.media.contentId);
+  //  Set your segment valid hls format : below is example:
+  //  Refer other format:
+  //  https://developers.google.com/cast/docs/reference/caf_receiver/cast.framework.messages#.HlsSegmentFormat
+
+  request.media.hlsSegmentFormat = cast.framework.messages.HlsSegmentFormat.TS;
+
+  return request;
+});
+
+playbackConfig.manifestRequestHandler = requestInfo => {
+    requestInfo.withCredentials = true;
+};
+
+playbackConfig.segmentRequestHandler = requestInfo => {
     requestInfo.withCredentials = true;
   };
 
-  window.mediaHost.updateLicenseRequestInfo = function(requestInfo) {
+playbackConfig.licenseRequestHandler = requestInfo => {
     requestInfo.withCredentials = true;
-  };
+};
 
-  window.mediaHost.updateSegmentRequestInfo = function(requestInfo) {
-    requestInfo.withCredentials = true;
-  };
+castOptions.playbackConfig = playbackConfig;
+context.start(castOptions);
 
-    cast.framework.CastReceiverContext.getInstance().start();
   </script>
 </body>
 </html>
