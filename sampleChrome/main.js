@@ -6,6 +6,9 @@ const castOptions = new cast.framework.CastReceiverOptions();
 
 let playbackConfig = (Object.assign(new cast.framework.PlaybackConfig(), playerManager.getPlaybackConfig()));
 
+
+var shouldHaveCredentials = false;
+
 playerManager.setMessageInterceptor(
 cast.framework.messages.MessageType.LOAD,
 request => {
@@ -19,6 +22,9 @@ request => {
 //  https://developers.google.com/cast/docs/reference/caf_receiver/cast.framework.messages#.HlsSegmentFormat
 
 request.media.hlsSegmentFormat = cast.framework.messages.HlsSegmentFormat.TS;
+
+shouldHaveCredentials = request.media.streamType == 'BUFFERED';
+
 return request;
 });
 
@@ -26,15 +32,21 @@ cast.framework.CastReceiverContext.getInstance().setLoggerLevel(cast.framework.L
 
 
 playbackConfig.manifestRequestHandler = requestInfo => {
-  //requestInfo.withCredentials = true;
+  if(shouldHaveCredentials) {
+    requestInfo.withCredentials = true;
+  }
 };
 
 playbackConfig.segmentRequestHandler = requestInfo => {
-  //requestInfo.withCredentials = true;
+  if(shouldHaveCredentials) {
+    requestInfo.withCredentials = true;
+  }
 };
 
 playbackConfig.licenseRequestHandler = requestInfo => {
-  //requestInfo.withCredentials = true;
+  if(shouldHaveCredentials) {
+    requestInfo.withCredentials = true;
+  }
 };
 
 castOptions.playbackConfig = playbackConfig;
