@@ -26,15 +26,15 @@ cast.framework.CastReceiverContext.getInstance().setLoggerLevel(cast.framework.L
 
 
 playbackConfig.manifestRequestHandler = requestInfo => {
-  requestInfo.withCredentials = true;
+  //requestInfo.withCredentials = true;
 };
 
 playbackConfig.segmentRequestHandler = requestInfo => {
-  requestInfo.withCredentials = true;
+  //requestInfo.withCredentials = true;
 };
 
 playbackConfig.licenseRequestHandler = requestInfo => {
-  requestInfo.withCredentials = true;
+  //requestInfo.withCredentials = true;
 };
 
 castOptions.playbackConfig = playbackConfig;
