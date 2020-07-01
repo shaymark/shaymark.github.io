@@ -33,15 +33,21 @@ let playbackConfig = (Object.assign(new cast.framework.PlaybackConfig(), playerM
 //   return request;
 // });
 
+cast.framework.CastReceiverContext.getInstance().setLoggerLevel(cast.framework.LoggerLevel.DEBUG);
+
+
 playbackConfig.manifestRequestHandler = requestInfo => {
+  debugger;
     requestInfo.withCredentials = true;
 };
 
 playbackConfig.segmentRequestHandler = requestInfo => {
+  debugger;
     requestInfo.withCredentials = true;
   };
 
 playbackConfig.licenseRequestHandler = requestInfo => {
+  debugger;
     requestInfo.withCredentials = true;
 };
 
