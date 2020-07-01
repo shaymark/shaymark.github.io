@@ -19,7 +19,6 @@ request => {
 //  https://developers.google.com/cast/docs/reference/caf_receiver/cast.framework.messages#.HlsSegmentFormat
 
 request.media.hlsSegmentFormat = cast.framework.messages.HlsSegmentFormat.TS;
-debugger;
 return request;
 });
 
@@ -27,7 +26,6 @@ cast.framework.CastReceiverContext.getInstance().setLoggerLevel(cast.framework.L
 
 
 playbackConfig.manifestRequestHandler = requestInfo => {
-debugger;
   requestInfo.withCredentials = true;
 };
 
@@ -42,4 +40,4 @@ playbackConfig.licenseRequestHandler = requestInfo => {
 castOptions.playbackConfig = playbackConfig;
 context.start(castOptions);
 
-}
+});
